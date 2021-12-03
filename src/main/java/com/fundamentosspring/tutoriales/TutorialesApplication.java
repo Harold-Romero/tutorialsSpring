@@ -98,15 +98,18 @@ public class TutorialesApplication implements CommandLineRunner {
     private void saveWithErrorTransactional(){
         User test1 = new User("test1Transactional1", "TestTransactional1@domain.com", LocalDate.now());
         User test2 = new User("test2Transactional2", "test2Transactional2@domain.com", LocalDate.now());
-        User test3 = new User("test3Transactional3", "test3Transactional3@domain.com", LocalDate.now());
+        User test3 = new User("test3Transactional3", "TestTransactional1@domain.com", LocalDate.now());
         User test4 = new User("test4Transactional4", "test4Transactional4@domain.com", LocalDate.now());
 
         List<User> users = Arrays.asList(test1, test2, test3, test4);
 
-        userService.saveTransactional(users);
-
-        userService.getAllUsers().stream()
-                .forEach(user -> LOGGER.info("Este es el usuario dentro del método transaccional " + user));
+        try {
+            userService.saveTransactional(users);
+        }catch (Exception e) {
+            LOGGER.error("Esta es una excepción dentro del método transactional " + e);
+        }
+            userService.getAllUsers().stream()
+                    .forEach(user -> LOGGER.info("Este es el usuario dentro del método transaccional " + user));
     }
 
     private void saveUsersInDataBase(){
