@@ -103,8 +103,11 @@ public class TutorialesApplication implements CommandLineRunner {
 
         List<User> users = Arrays.asList(test1, test2, test3, test4);
 
-        userService.saveTransactional(users);
-
+        try {
+            userService.saveTransactional(users);
+        }catch (Exception e){
+            LOGGER.error("Esta es una excepción dentro del método transactional " + e);
+        }
         userService.getAllUsers().stream()
                 .forEach(user -> LOGGER.info("Este es el usuario dentro del método transaccional " + user));
     }
